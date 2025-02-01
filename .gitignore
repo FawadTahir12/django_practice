@@ -1,0 +1,4 @@
+venv
+.vscode
+/django_project/.env
+__pycache__/
