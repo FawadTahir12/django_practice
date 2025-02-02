@@ -1,13 +1,14 @@
 from django.db import models
+from django.contrib.auth.models import  AbstractUser, PermissionsMixin
+from .managers import UserManager
 
 class Author(models.Model):
     
     class Meta:
         db_table = "authors"
-        
-    firstname = models.CharField(max_length=100)
-    lastname = models.CharField(max_length=100)
+    
     address = models.CharField(max_length=200, null=True)
+    user = models.OneToOneField('User', on_delete=models.CASCADE, default=None, null=False, blank=False)
     zipcode = models.IntegerField(null=True)
     telephone = models.CharField(max_length=100, null=True)
     recommendedby = models.ForeignKey('Author', on_delete=models.CASCADE, related_name='recommended_authors', related_query_name='recommended_authors', null=True)
@@ -35,21 +36,24 @@ class Publisher(models.Model):
     
     class Meta:
         db_table = "publishers"
-        
-    firstname = models.CharField(max_length=100)
-    lastname = models.CharField(max_length=100)
+    user = models.OneToOneField('User', models.CASCADE, null=False, blank=False, default=None)
     recommendedby = models.ForeignKey('Publisher', on_delete=models.CASCADE, null=True)
     joindate = models.DateField()
     popularity_score = models.IntegerField()
     def __str__(self):
         return self.firstname + ' ' + self.lastname
 
-class User(models.Model):
+class User(AbstractUser, PermissionsMixin):
     
     class Meta:
         db_table = "users"
         
     username = models.CharField(max_length=100)
-    email = models.CharField(max_length=100)
+    email = models.CharField(max_length=100, unique = True)
+    USERNAME_FIELD = "email"
+    REQUIRED_FIELDS = []
+    objects = UserManager()
     def __str__(self):
-        return self.username
+        return self.email
+    
+
