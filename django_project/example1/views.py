@@ -2,10 +2,24 @@ from django.shortcuts import render
 from django.http import Http404
 from rest_framework.generics import CreateAPIView, UpdateAPIView
 from rest_framework.response import Response
+from rest_framework.views import APIView
 from rest_framework import status
 from .models import Author, User
-from .serializers import UserSerializer
+from .serializers import UserSerializer, LoginSerializer
 # Create your views here.
+
+
+class LoginView(APIView):
+
+    def post(self, request):
+        serializer = LoginSerializer(data=request.data)
+
+        if serializer.is_valid():
+            return Response(serializer.validated_data, status=status.HTTP_200_OK)
+
+        return Response(serializer.errors, status=status.HTTP_401_UNAUTHORIZED)
+
+
 
 class createUserView(CreateAPIView):
     queryset = User.objects.all()
