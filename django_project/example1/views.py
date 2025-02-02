@@ -51,7 +51,6 @@ class updateUserView(UpdateAPIView):
             user = self.get_object()  # overide the method to handle update with email not with pk
         except Http404:
             return  Response(status=status.HTTP_404_NOT_FOUND, data={"error": "User not exists"})
-    
         serializer = self.get_serializer(user, data=request.data, partial=True)
         if serializer.is_valid():
             serializer.save()
