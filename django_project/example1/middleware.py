@@ -1,6 +1,7 @@
 from django.db import transaction
 from django.http import JsonResponse
 from rest_framework import status
+from django_project.enums import RequestEnum
 
 
 class TransactionMiddleware:
@@ -9,7 +10,7 @@ class TransactionMiddleware:
 
     def __call__(self, request):
         # Apply transaction only for write methods
-        if request.method in ['POST', 'PUT', 'PATCH']:
+        if request.method in [RequestEnum.POST, RequestEnum.PUT, RequestEnum.PATCH]:
             try:
                 with transaction.atomic():  # Start a transaction block
                     response = self.get_response(request)
