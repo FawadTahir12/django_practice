@@ -6,3 +6,10 @@ class RequestEnum(StrEnum):
     DELETE = 'DELETE'
     PUT = 'PUT'
     GET = 'GET'
+    
+    
+USER_TYPE_CHOICES = [
+        ('Simple', 'Simple'),
+        ('Author', 'Author'),
+        ('Publisher', 'Publisher'),
+    ]
