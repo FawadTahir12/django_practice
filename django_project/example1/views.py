@@ -6,6 +6,7 @@ from rest_framework.views import APIView
 from rest_framework import status
 from .models import Author, User
 from .serializers import UserSerializer, LoginSerializer
+from .custompermissions import IsAuthenticatedWithRole
 # Create your views here.
 
 
@@ -47,6 +48,7 @@ class createUserView(CreateAPIView):
 class updateUserView(UpdateAPIView):
     queryset = User.objects.all()
     serializer_class = UserSerializer
+    permission_classes = [IsAuthenticatedWithRole]
     
     def get_object(self):
         email = self.kwargs.get('email')
