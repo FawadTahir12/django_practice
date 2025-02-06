@@ -25,7 +25,7 @@ class UserSerializer(serializers.ModelSerializer):
     signup = serializers.BooleanField(write_only=True,required=False)
     class Meta:
         model = User
-        fields =  ['username', 'email','password', 'first_name', 'last_name', 'date_joined', 'signup','user_type']
+        fields =  ['username', 'email','password', 'first_name', 'last_name', 'date_joined', 'signup','user_type','id']
         extra_kwargs = {'password': {'write_only': True}}
         
     def validate_email(self, value): # field level validation
@@ -68,8 +68,9 @@ class LoginSerializer(serializers.Serializer):
             raise serializers.ValidationError("Invalid email or password.")
 
         # Generate JWT tokens
-        refresh = RefreshToken.for_user(user)
-        access = CustomTokenObtainPairSerializer.get_token(user)
+        # refresh = RefreshToken.for_user(user)
+        refresh = CustomTokenObtainPairSerializer.get_token(user)
+        access = refresh.access_token
 
         return {
             "access": str(access),
