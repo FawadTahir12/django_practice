@@ -5,7 +5,18 @@ from .managers import UserManager
 from django.utils import timezone
 from django_project.enums import USER_TYPE_CHOICES
 
-class Author(models.Model):
+
+class BaseModel(models.Model):
+    class Meta:
+        abstract = True
+        
+    is_active = models.BooleanField(default=True, blank=False, null=False)
+    is_deleted = models.BooleanField(default=False, blank=False, null=False)
+    created_at = models.DateTimeField(auto_now_add=True, blank=True, null=True)
+    updated_at = models.DateTimeField(auto_now=True, blank=True, null=True)
+    
+
+class Author(BaseModel):
     
     class Meta:
         db_table = "authors"
@@ -19,7 +30,7 @@ class Author(models.Model):
     popularity_score = models.IntegerField(null=True)
     followers = models.ManyToManyField('User', related_name='followed_authors', related_query_name='followed_authors')
 
-class Books(models.Model):
+class Books(BaseModel):
     
     class Meta:
         db_table = "books"
@@ -34,7 +45,7 @@ class Books(models.Model):
     def __str__(self):
         return self.title
 
-class Publisher(models.Model):
+class Publisher(BaseModel):
     
     class Meta:
         db_table = "publishers"
@@ -42,8 +53,6 @@ class Publisher(models.Model):
     recommendedby = models.ForeignKey('Publisher', on_delete=models.CASCADE, null=True)
     joindate = models.DateField()
     popularity_score = models.IntegerField()
-    def __str__(self):
-        return self.firstname + ' ' + self.lastname
 
 class User(AbstractUser, PermissionsMixin):
     

@@ -1,10 +1,9 @@
 import re
 from rest_framework import serializers
-from .models import User
+from .models import User, Author
 from django_project.enums import RequestEnum
 from django_project.constants import EMAIL_REGEX, USERNAME_REGEX
 from django.contrib.auth import authenticate
-from rest_framework_simplejwt.tokens import RefreshToken
 from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
 
 class CustomTokenObtainPairSerializer(TokenObtainPairSerializer):
@@ -82,3 +81,38 @@ class LoginSerializer(serializers.Serializer):
             "last_name": user.last_name,
             "user_type": user.user_type,
         }       
+        
+################### Author Serializers ######################
+
+class AuthorSerializer(serializers.ModelSerializer):
+    
+    class Meta:
+        model = Author
+        fields = ['address','telephone','zipcode', 'joindate','user_id', 'popularity_score', 'id']
+        
+
+class UserAuthorSerializer(serializers.ModelSerializer):
+    author = AuthorSerializer(required=False)
+    
+    class Meta:
+        model = User
+        fields = ['last_name','first_name','email','author']
+        
+        
+    def update(self, instance, validated_data):
+        
+        author_data = validated_data.pop('author')
+        for attr, value in validated_data.items():
+            setattr(instance, attr, value)
+            
+        if author_data:
+            try:
+                author_instance = instance.author
+            except Author.DoesNotExist:
+                author_instance = Author.create(User=instance, **author_data)
+            else:
+                for attr, value in author_data.items():
+                    setattr(author_instance, attr, value)
+                author_instance.save()
+                
+        return instance

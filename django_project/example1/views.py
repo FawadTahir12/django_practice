@@ -3,9 +3,10 @@ from django.http import Http404
 from rest_framework.generics import CreateAPIView, UpdateAPIView
 from rest_framework.response import Response
 from rest_framework.views import APIView
+from rest_framework.exceptions import NotFound
 from rest_framework import status
 from .models import Author, User
-from .serializers import UserSerializer, LoginSerializer
+from .serializers import UserSerializer, LoginSerializer, UserAuthorSerializer
 from .custompermissions import IsAuthenticatedWithRole
 # Create your views here.
 
@@ -73,3 +74,34 @@ class updateUserView(UpdateAPIView):
             return Response(status=status.HTTP_200_OK, data=serializer.data)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
     
+
+################ Author View #################
+
+class AuthorUpdateView(UpdateAPIView):
+    permission_classes = [IsAuthenticatedWithRole]
+    serializer_class = UserAuthorSerializer
+    
+    def get_object(self):
+        # Custom get_object logic if needed
+        user_id = self.kwargs.get('user_id')
+        if not user_id:
+            raise NotFound(detail="User ID not provided.")
+        try:
+            return User.objects.get(pk=user_id)
+        except User.DoesNotExist:
+            raise NotFound(detail="User not found.")
+        
+    
+    def patch(self, request, *args, **kwargs):
+        # Retrieve the object first.
+        instance = self.get_object()
+        
+        # Instantiate the serializer with partial=True
+        serializer = self.get_serializer(instance, data=request.data, partial=True)
+        serializer.is_valid(raise_exception=True)
+        
+        # Update the instance (this calls your custom update() method in the serializer)
+        self.perform_update(serializer)
+        
+        # Return a response with the updated data.
+        return Response(serializer.data, status=status.HTTP_200_OK)
