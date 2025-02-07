@@ -1,4 +1,5 @@
 from django.db import models
+from django.contrib.postgres.fields import ArrayField
 from django.contrib.auth.models import  AbstractUser, PermissionsMixin
 from .managers import UserManager
 from django.utils import timezone
@@ -29,6 +30,7 @@ class Books(models.Model):
     published_date = models.DateField()
     author = models.ForeignKey('Author', on_delete=models.CASCADE, related_name='books', related_query_name='books')
     publisher = models.ForeignKey('Publisher', on_delete=models.CASCADE, related_name='books', related_query_name='books')
+    images = ArrayField(models.JSONField(),blank=True, default=None)
     def __str__(self):
         return self.title
 

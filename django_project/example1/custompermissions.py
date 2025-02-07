@@ -5,6 +5,7 @@ class IsAuthenticatedWithRole(BasePermission):
     Custom permission to only allow access to authenticated users
     who have a role of 'publisher', 'author', or 'simple'.
     """
+    message = "User dont have this permission becuase of its role" # custom meeage if permission fails
     # Define the allowed roles
     allowed_roles = ['Publisher', 'Author', 'Simple']
 
