@@ -7,5 +7,6 @@ urlpatterns = [
     path("<str:email>/", views.updateUserView.as_view(), name="user_view_update"),
     path("login", views.LoginView.as_view(), name="login"),
     path("token/refresh/", TokenRefreshView.as_view(), name="token_refresh"),
-    path("authors/<int:user_id>/", views.AuthorUpdateView.as_view(), name="author-update")
+    path("authors/<int:user_id>/", views.AuthorUpdateView.as_view(), name="author-update"),
+    path("celery-testing", views.CeleryTesting.as_view(), name="celery-testing")
 ]
