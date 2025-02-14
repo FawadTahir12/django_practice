@@ -8,6 +8,7 @@ from rest_framework import status
 from .models import Author, User
 from .serializers import UserSerializer, LoginSerializer, UserAuthorSerializer
 from .custompermissions import IsAuthenticatedWithRole
+from .tasks import your_async_task
 # Create your views here.
 
 
@@ -105,3 +106,15 @@ class AuthorUpdateView(UpdateAPIView):
         
         # Return a response with the updated data.
         return Response(serializer.data, status=status.HTTP_200_OK)
+    
+    
+    
+    
+############# Celery Testing API ##############
+    
+    
+class CeleryTesting(APIView):
+    
+    def get(self, request):
+        task_result = your_async_task.delay(10, 20)
+        return Response(status=status.HTTP_200_OK, data={'data':"hello"})
