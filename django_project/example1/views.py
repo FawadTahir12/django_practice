@@ -116,7 +116,11 @@ class AuthorUpdateView(UpdateAPIView):
 class CeleryTesting(APIView):
     
     def get(self, request):
-        add.delay(10, 20)
-        sub.delay(20,10)
+        add_task = add.apply_async(args=[10,20])
+        print(add_task.id, " ", add.name)
+        print(add_task.status, " ", add.name)
+        sub_task = sub.apply_async(args=[20,10])
+        print(sub_task.id , " " , sub.name)
+        print(sub_task.status,  " " ,sub.name )
         
         return Response(status=status.HTTP_200_OK, data={'data':"hello"})
