@@ -12,6 +12,11 @@ else:
 
 celery_app = Celery('django_project')
 celery_app.config_from_object('django.conf:settings', namespace='CELERY')
+
+celery_app.conf.task_queues = {
+    'worker1_queue': {},
+    'worker2_queue': {},
+}
 celery_app.autodiscover_tasks()
 
 
