@@ -170,3 +170,52 @@ print(len(nums[:-k]))
 # print(nums)
 
 
+# Longest common prefix
+
+strs = ["flower","flow","flight"]
+
+strs.sort()
+common_prefix = ''
+first_word, last_word = strs[0], strs[-1]
+
+for i in range(len(first_word)):
+    if first_word[i] != last_word[i]:
+        break
+    else:
+        common_prefix = common_prefix + first_word[i]
+
+
+print(common_prefix)
+
+    
+prefix = strs[0]
+for s in strs[1:]:
+    while not s.startswith(prefix) and prefix:
+        prefix = prefix[:-1]
+
+print(prefix)
+
+
+
+# maxProfit
+
+def maxProfit():
+    prices = [2,1,2,1,0,1,2]
+    buy = prices[0]
+    profit = 0
+    # for i in range(1, len(prices)):
+    #     if prices[i] < buy:
+    #         buy = prices[i]
+    #     elif prices[i] - buy > profit:
+    #         profit = prices[i] - buy
+    
+    for i in range(1,len(prices)):
+        
+        if max(prices[i:len(prices)]) - buy > profit:
+            profit = max(prices[i:len(prices)]) - buy 
+ 
+    return profit
+    # print(max_profit)
+    
+print(maxProfit())
+
