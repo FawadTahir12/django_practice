@@ -66,18 +66,15 @@ j = 1
 
 while i <= len(nums)- 1:
     if j == len(nums)- 1:
-        # print(nums)
         i = i + 1
         if i != len(nums)- 1:
             j =  i + 1
     else:
-        print(j)
         if nums[i] == nums[j]:
             nums.remove(nums[j])
         else:
             j = j + 1
-
-print(nums)
+# print(nums)
 
 
 def factorial(num):
@@ -86,14 +83,14 @@ def factorial(num):
     
     return num * (num - 1)
 
-print(factorial(10))
+# print(factorial(10))
 
 
 def count_combinations(n, r):
     return factorial(n) // factorial(r) * factorial(n-r)
 
 
-print(count_combinations(10,3))
+# print(count_combinations(10,3))
 
 
 def get_combinations(arr,r,start=0, comb_arr=[], combination_array=[]):
@@ -112,4 +109,64 @@ def find_combinations(n,r):
     results = get_combinations(nums_list,r)
     return results
     
-print(find_combinations(10,3))
+# print(find_combinations(10,3))
+
+
+
+# Remove Duplicatewhich accurs more then twice
+accurences = 0
+i = 0
+while i+1 <= len(nums) - 1:
+    if nums[i] != nums[i+1]:
+        accurences = 0
+    else:
+        accurences += 1
+    if accurences >= 2:
+        nums.remove(nums[i+1])
+        # accurences = accurences - 1
+    else:
+        i = i + 1
+
+# print(nums)
+
+
+# Majority Elements
+
+nums = [2,2,1,1,1,2,2,3,3,3,3,3,3,3]
+
+count = {}
+majorityElements = nums[0]
+
+for num in nums:
+    if num not in count.keys():
+        count[num] = 1
+    else:
+        count[num] = count[num] + 1
+        if count[num] > count[majorityElements]:
+            majorityElements = num
+            
+
+# Rotated Array
+
+
+nums = [1,2,3,4,5,6,7]
+k = 3
+i = 1
+
+# while i <= k:
+#     nums.insert(0,nums[-1])
+#     del nums[-1]
+#     i = i + 1
+
+# for _ in range(k):
+#     nums.insert(0,nums[-1])
+#     del nums[-1]
+deleted_elements = len(nums[:-k])
+nums.extend(nums[:-k])
+del nums[0:deleted_elements]
+print(len(nums[:-k]))
+# print(nums[:-k])
+    
+# print(nums)
+
+
