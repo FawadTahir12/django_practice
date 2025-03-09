@@ -185,7 +185,7 @@ for i in range(len(first_word)):
         common_prefix = common_prefix + first_word[i]
 
 
-print(common_prefix)
+# print(common_prefix)
 
     
 prefix = strs[0]
@@ -193,7 +193,7 @@ for s in strs[1:]:
     while not s.startswith(prefix) and prefix:
         prefix = prefix[:-1]
 
-print(prefix)
+# print(prefix)
 
 
 
@@ -203,19 +203,44 @@ def maxProfit():
     prices = [2,1,2,1,0,1,2]
     buy = prices[0]
     profit = 0
-    # for i in range(1, len(prices)):
-    #     if prices[i] < buy:
-    #         buy = prices[i]
-    #     elif prices[i] - buy > profit:
-    #         profit = prices[i] - buy
-    
-    for i in range(1,len(prices)):
-        
-        if max(prices[i:len(prices)]) - buy > profit:
-            profit = max(prices[i:len(prices)]) - buy 
+    for i in range(1, len(prices)):
+        if prices[i] < buy:
+            buy = prices[i]
+        elif prices[i] - buy > profit:
+            profit = prices[i] - buy
  
     return profit
     # print(max_profit)
     
-print(maxProfit())
+# print(maxProfit())
 
+# integer Palindrome
+x= 69695
+if x < 0:
+    print("FALSE")
+else:
+    reverse = 0
+    xcopy = x
+
+    while x > 0:
+        reverse = (reverse * 10) + (x % 10)
+        x //= 10
+# print(reverse)
+
+    
+
+num = 1112324
+
+# Find the highest power of 10 dynamically
+divisor = 1
+while num // divisor >= 10:  # Keep increasing divisor
+    divisor *= 10  
+
+# Now loop through and extract digits
+while divisor > 0:
+    quotient = num // divisor  # Extract leftmost digit
+    remainder = num % divisor  # Get the remaining part
+    print(quotient)  # Print the digit
+    num = remainder  # Update num
+    divisor //= 10 
+    
