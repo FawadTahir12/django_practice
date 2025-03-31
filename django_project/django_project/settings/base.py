@@ -44,6 +44,7 @@ INSTALLED_APPS = [
     "rest_framework_simplejwt",
     "django_celery_results",
     "example1",
+    "stripeIntegration",
 ]
 
 MIDDLEWARE = [
@@ -150,3 +151,8 @@ SIMPLE_JWT = {
     "USER_ID_FIELD": "id",  # Default field for user ID
     "USER_ID_CLAIM": "user_id",  # Claim name in the JWT payload
 }
+
+# Stripe Settings
+STRIPE_PUBLIC_KEY = os.environ.get('STRIPE_PUBLIC_KEY')
+STRIPE_SECRET_KEY = os.environ.get('STRIPE_SECRET_KEY')
+STRIPE_WEBHOOK_SECRET = os.environ.get('STRIPE_WEBHOOK_SECRET')
