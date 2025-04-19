@@ -69,6 +69,3 @@ if __name__ == "__main__":
     s2 = Singleton(data="Second instance")
     print(f"s2 data: {s2.data}")  # Output: s2 data: First instance
     print(f"Are s1 and s2 the same instance? {s1 is s2}")  # Output: True
-
-
-print('hello')
