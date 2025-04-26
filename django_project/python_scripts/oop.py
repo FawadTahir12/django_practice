@@ -24,6 +24,7 @@ class Example:
             print(f"Initializing instance with name: {self.data.get('name')}")
 
     def __call__(self):
+        print(f"hello {self.data.get('name')}")
         print("Calling...")
     
     def __del__(self):
@@ -38,9 +39,10 @@ if __name__ == "__main__":
         "city": "Karachi"
     }
     p = Example(data)
-    b = Example("string")  # This will print error message
-    print(f"Are p and b the same instance? {p is b}")  # Will print True
-
+    # b = Example("string")  # This will print error message
+    # print(p.__new__(Example).__dict__, "new")
+    # print(f"Are p and b the same instance? {p is b}")  # Will print True
+    p()
 class Singleton:
     _instance = None  # Class variable to store the single instance
 
@@ -69,6 +71,3 @@ if __name__ == "__main__":
     s2 = Singleton(data="Second instance")
     print(f"s2 data: {s2.data}")  # Output: s2 data: First instance
     print(f"Are s1 and s2 the same instance? {s1 is s2}")  # Output: True
-
-
-print('hello')
